@@ -1,4 +1,4 @@
-package com.ycpy.model;
+package team.ycpy.tinybookmark.model;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

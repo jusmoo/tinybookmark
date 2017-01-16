@@ -40,18 +40,81 @@ public class User {
 		this.rootfoldid = foldid;
 	}
 	
-	public PreparedStatement insertUser(){
-		String sql = "insert into User(username,nickname,password,rootfoldid) values (?,?,?)";
-		PreparedStatement stmt = 
+	public PreparedStatement insertUser(ConnectServer con){
+		String sql = "insert into User(username,nickname,password,rootfoldid) values (?,?,?,?);";
+		
+		try {
+			PreparedStatement stmt = con.prepare(sql);
+			stmt.setString(1, this.getusername());
+			stmt.setString(2, getnickname());
+			stmt.setString(3, getpassword());
+			stmt.setString(4, getrootfoldid());
+			
+			return stmt;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		
 	}
 	
-	public String deleteUser(){
-		String sql = "delete from User where username=" + "'" + this.getusername() + "';";
-		return sql;
+	public PreparedStatement deleteUser(ConnectServer con){
+		String sql = "delete from User where username=?";
+		try{
+			PreparedStatement stmt = con.prepare(sql);
+			stmt.setString(1, this.getusername());
+			return stmt;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
-	public String updateUser(){
-		String sql = "update User set"
+	public PreparedStatement updateUser(ConnectServer con){
+		int index = 1;
+		
+		String sql = "update User set ";
+		if(this.getnickname()!=null)sql += "nickname=?,";
+		if(this.getpassword()!=null)sql += "password=?,";
+		if(this.getrootfoldid()!=null)sql += "rootfoldid=? ";
+		sql += "where username=?";
+		PreparedStatement stmt;
+		
+		try{
+			stmt = con.prepare(sql);
+			if(this.getnickname()!=null)stmt.setString(index++, this.getnickname());
+			if(this.getpassword()!=null)stmt.setString(index++, this.getpassword());
+			if(this.getrootfoldid()!=null)stmt.setString(index++, this.getrootfoldid());
+			stmt.setString(index, this.getusername());
+			return stmt;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public PreparedStatement queryUser(ConnectServer con, String req){
+		int index = 1;
+		
+		String sql = "Select" + req + "from User where ";
+		if(this.getusername()!=null)sql += "username=?,";
+		if(this.getnickname()!=null)sql += "nickname=?;";
+		
+		PreparedStatement stmt;
+		
+		try{
+			stmt = con.prepare(sql);
+			if(this.getusername()!=null)stmt.setString(index++, this.getusername());
+			if(this.getnickname()!=null)stmt.setString(index, this.getnickname());
+			return stmt;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 }

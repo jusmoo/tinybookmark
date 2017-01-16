@@ -1,5 +1,7 @@
 package team.ycpy.tinybookmark.model;
 
+import java.sql.PreparedStatement;
+
 public class Item {
 	private String Ino;
 	private String Iname;
@@ -28,5 +30,80 @@ public class Item {
 	public void setFno(String str){
 		this.Fno = str;
 	}
+	
+	public PreparedStatement insertItem(ConnectServer con){
+		String sql = "insert into Item(Ino,Iname,Fno) values (?,?,?);";
+		
+		try {
+			PreparedStatement stmt = con.prepare(sql);
+			stmt.setString(1, this.getIno());
+			stmt.setString(2, this.getIname());
+			stmt.setString(3, this.getFno());
+			
+			return stmt;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
+	
+	public PreparedStatement deleteItem(ConnectServer con){
+		String sql = "delete from Item where Ino=?";
+		try{
+			PreparedStatement stmt = con.prepare(sql);
+			stmt.setString(1, this.getIno());
+			return stmt;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public PreparedStatement updateItem(ConnectServer con){
+		int index = 1;
+		
+		String sql = "update Item set ";
+		if(this.getIname()!=null)sql += "Iname=?,";
+		if(this.getFno()!=null)sql += "Fno=? ";
+		sql += "where Ino=?";
+		PreparedStatement stmt;
+		
+		try{
+			stmt = con.prepare(sql);
+			if(this.getIname()!=null)stmt.setString(index++, this.getIname());
+			if(this.getFno()!=null)stmt.setString(index++, this.getFno());
+			stmt.setString(index, this.getIno());
+			return stmt;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public PreparedStatement queryItem(ConnectServer con, String req){
+		int index = 1;
+		
+		String sql = "Select" + req + "from Item where ";
+		if(this.getIno()!=null)sql += "Ino=?,";
+		if(this.getIname()!=null)sql += "Iname=?;";
+		
+		PreparedStatement stmt;
+		
+		try{
+			stmt = con.prepare(sql);
+			if(this.getIno()!=null)stmt.setString(index++, this.getIno());
+			if(this.getIname()!=null)stmt.setString(index, this.getIname());
+			return stmt;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 
 }

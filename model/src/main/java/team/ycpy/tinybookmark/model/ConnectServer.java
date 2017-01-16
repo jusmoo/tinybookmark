@@ -2,14 +2,15 @@ package team.ycpy.tinybookmark.model;
 
 import java.sql.*;
 
+
 //connect the server and execute given sql statement
 public class ConnectServer {
-	private java.sql.Connection conn;
+	private Connection conn;
 	private boolean isLink;
 	private String username;
 	private String password;
 	private final String addr = "jdbc:mysql://localhost:3306";
-	private final String driver = "com.mysql.mysql-connector.5.1.40-bin";
+	private final String driver = "com.mysql.jdbc";
 	
 	//users can just modify the username and password
 	public void setusername(String user){
@@ -56,15 +57,13 @@ public class ConnectServer {
 	}
 	
 	//execute query, if succeed, return result, return null otherwise
-	public ResultSet executeQuery(String sql){
+	public ResultSet executeQuery(PreparedStatement sql){
 		if(!this.isLink)return null;
 		
 		ResultSet res;
-		Statement stmt;
 		
 		try{
-			stmt = this.conn.createStatement();
-			res = stmt.executeQuery(sql);
+			res = sql.executeQuery();
 		}
 		catch(Exception e){
 			System.out.print(e.getStackTrace());
@@ -74,14 +73,12 @@ public class ConnectServer {
 		return res;
 	}
 	
-	public int executeInsert(String sql){
+	public int executeInsert(PreparedStatement sql){
 		if(!this.isLink)return 201;
 		
-		Statement stmt;
 		
 		try{
-			stmt = this.conn.createStatement();
-			stmt.execute(sql);
+			sql.execute();
 		}
 		catch(Exception e){
 			System.out.println(e.getStackTrace());
@@ -92,14 +89,11 @@ public class ConnectServer {
 	}
 	
 	//execute delete, if succeed, then return 200, return 201 otherwise
-	public int executeDelete(String sql){
+	public int executeDelete(PreparedStatement sql){
 		if(!this.isLink)return 201;
 		
-		Statement stmt;
-		
 		try{
-			stmt = this.conn.createStatement();
-			stmt.execute(sql);
+			sql.execute();
 		}
 		catch(Exception e){
 			System.out.println(e.getStackTrace());
@@ -110,14 +104,12 @@ public class ConnectServer {
 	}
 	
 	//execute update, if succeed, then return 200, return 201 otherwise
-	public int executeUpdate(String sql){
+	public int executeUpdate(PreparedStatement sql){
 		if(!this.isLink)return 201;
 		
-		Statement stmt;
 		
 		try{
-			stmt = this.conn.createStatement();
-			stmt.execute(sql);
+			sql.execute();
 		}
 		catch(Exception e){
 			System.out.println(e.getStackTrace());
@@ -125,5 +117,9 @@ public class ConnectServer {
 		}
 		
 		return 200;
+	}
+	
+	public PreparedStatement prepare(String sql)throws Exception{
+			return this.conn.prepareStatement(sql);
 	}
 }

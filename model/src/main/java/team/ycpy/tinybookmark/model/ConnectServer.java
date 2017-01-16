@@ -9,7 +9,7 @@ public class ConnectServer {
 	private String username;
 	private String password;
 	private final String addr = "jdbc:mysql://localhost:3306";
-	private final String driver = "com.mysql.jdbc.Driver";
+	private final String driver = "com.mysql.mysql-connector.5.1.40-bin";
 	
 	//users can just modify the username and password
 	public void setusername(String user){

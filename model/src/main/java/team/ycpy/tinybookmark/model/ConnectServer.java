@@ -1,16 +1,16 @@
 package team.ycpy.tinybookmark.model;
 
-import java.sql.*;
+import java.sql.*;	
 
 
 //connect the server and execute given sql statement
 public class ConnectServer {
-	private Connection conn;
+	private java.sql.Connection conn;
 	private boolean isLink;
 	private String username;
 	private String password;
-	private final String addr = "jdbc:mysql://localhost:3306";
-	private final String driver = "com.mysql.jdbc";
+	private final String addr = "jdbc:mysql://localhost:3306/sys";
+	private final String driver = "com.mysql.jdbc.Driver";
 	
 	//users can just modify the username and password
 	public void setusername(String user){
@@ -34,7 +34,8 @@ public class ConnectServer {
 			this.conn = DriverManager.getConnection(this.addr, this.username, this.password);
 		}
 		catch(Exception e){
-			System.out.println(e.getStackTrace());
+			System.out.println("AAA");
+			e.printStackTrace();
 			return 201;
 		}
 		this.isLink = true;
@@ -57,7 +58,7 @@ public class ConnectServer {
 	}
 	
 	//execute query, if succeed, return result, return null otherwise
-	public ResultSet executeQuery(PreparedStatement sql){
+	public ResultSet executeQuery(java.sql.PreparedStatement sql){
 		if(!this.isLink)return null;
 		
 		ResultSet res;
@@ -73,7 +74,7 @@ public class ConnectServer {
 		return res;
 	}
 	
-	public int executeInsert(PreparedStatement sql){
+	public int executeInsert(java.sql.PreparedStatement sql){
 		if(!this.isLink)return 201;
 		
 		
@@ -89,7 +90,7 @@ public class ConnectServer {
 	}
 	
 	//execute delete, if succeed, then return 200, return 201 otherwise
-	public int executeDelete(PreparedStatement sql){
+	public int executeDelete(java.sql.PreparedStatement sql){
 		if(!this.isLink)return 201;
 		
 		try{
@@ -104,7 +105,7 @@ public class ConnectServer {
 	}
 	
 	//execute update, if succeed, then return 200, return 201 otherwise
-	public int executeUpdate(PreparedStatement sql){
+	public int executeUpdate(java.sql.PreparedStatement sql){
 		if(!this.isLink)return 201;
 		
 		
@@ -119,7 +120,7 @@ public class ConnectServer {
 		return 200;
 	}
 	
-	public PreparedStatement prepare(String sql)throws Exception{
+	public java.sql.PreparedStatement prepare(String sql)throws Exception{
 			return this.conn.prepareStatement(sql);
 	}
 }

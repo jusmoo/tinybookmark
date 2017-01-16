@@ -87,16 +87,41 @@ public class Item {
 	public PreparedStatement queryItem(ConnectServer con, String req){
 		int index = 1;
 		
-		String sql = "Select" + req + "from Item where ";
-		if(this.getIno()!=null)sql += "Ino=?,";
-		if(this.getIname()!=null)sql += "Iname=?;";
+		String sql = "Select" + req + "from Item ";
+		if(this.getIno()!=null){
+			if(index == 1){
+				sql += "where ";
+				index++;
+			}
+			else sql += "AND ";
+			sql += "Ino=? ";
+		}
+		if(this.getIname()!=null){
+			if(index == 1){
+				sql += "where ";
+				index++;
+			}
+			else sql += "AND ";
+			sql += "Iname=? ";
+		}
+		if(this.getFno()!=null){
+			if(index == 1){
+				sql += "where ";
+				index++;
+			}
+			else sql += "AND ";
+			sql += "Fno=? ";
+		}
+		sql += ";";
 		
+		index = 1;
 		PreparedStatement stmt;
 		
 		try{
 			stmt = con.prepare(sql);
 			if(this.getIno()!=null)stmt.setString(index++, this.getIno());
-			if(this.getIname()!=null)stmt.setString(index, this.getIname());
+			if(this.getIname()!=null)stmt.setString(index++, this.getIname());
+			if(this.getFno()!=null)stmt.setString(index++, this.getFno());
 			return stmt;
 		}
 		catch(Exception e){

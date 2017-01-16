@@ -99,10 +99,26 @@ public class User {
 	public PreparedStatement queryUser(ConnectServer con, String req){
 		int index = 1;
 		
-		String sql = "Select" + req + "from User where ";
-		if(this.getusername()!=null)sql += "username=?,";
-		if(this.getnickname()!=null)sql += "nickname=?;";
+		String sql = "Select" + req + "from User ";
+		if(this.getusername()!=null){
+			if(index == 1){
+				sql += "where ";
+				index++;
+			}
+			else sql += "AND ";
+			sql += "username=? ";
+		}
+		if(this.getnickname()!=null){
+			if(index == 1){
+				sql += "where ";
+				index++;
+			}
+			else sql += "AND ";
+			sql += "nickname=? ";
+		}
+		sql += ";";
 		
+		index = 1;
 		PreparedStatement stmt;
 		
 		try{

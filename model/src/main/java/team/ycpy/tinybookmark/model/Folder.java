@@ -99,12 +99,42 @@ public class Folder {
 	public PreparedStatement queryFolder(ConnectServer con, String req){
 		int index = 1;
 		
-		String sql = "Select" + req + "from Item where ";
-		if(this.getIno()!=null)sql += "Ino=?,";
-		if(this.getIname()!=null)sql += "Iname=?,";
-		if(this.getFtype()!=-1)sql += "Ftype=?,";
-		if(this.getCreaterId()!=null)sql += "CreaterId=?";
+		String sql = "Select" + req + "from Folder where ";
+		if(this.getIno()!=null){
+			if(index == 1){
+				sql += "where ";
+				index++;
+			}
+			else sql += "AND ";
+			sql += "Ino=? ";
+		}
+		if(this.getIname()!=null){
+			if(index == 1){
+				sql += "where ";
+				index++;
+			}
+			else sql += "AND ";
+			sql += "Iname=? ";
+		}
+		if(this.getFtype()!=-1){
+			if(index == 1){
+				sql += "where ";
+				index++;
+			}
+			else sql += "AND ";
+			sql += "Ftype=? ";
+		}
+		if(this.getCreaterId()!=null){
+			if(index == 1){
+				sql += "where ";
+				index++;
+			}
+			else sql += "AND ";
+			sql += "CreaterId=? ";
+		}
+		sql += ";";
 		
+		index = 1;
 		PreparedStatement stmt;
 		
 		try{

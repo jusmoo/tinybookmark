@@ -33,6 +33,7 @@
 
 <build>
   <plugins>
+
     <plugin>
       <!-- Build an executable JAR -->
       <groupId>org.apache.maven.plugins</groupId>
@@ -43,7 +44,7 @@
           <manifest>
             <addClasspath>true</addClasspath>
             <classpathPrefix>lib/</classpathPrefix>
-            <mainClass>com.mypackage.MyClass</mainClass>
+            <mainClass>team.ycpy.tinybookmark.model.App</mainClass>
           </manifest>
         </archive>
       </configuration>

@@ -6,6 +6,14 @@ public class Item {
 	private String Ino;
 	private String Iname;
 	private String Fno;
+	private int Itype;
+	
+	public Item(){
+		this.Ino = null;
+		this.Iname = null;
+		this.Fno = null;
+		this.Itype = -1;
+	}
 	
 	public String getIno(){
 		return this.Ino;
@@ -17,6 +25,14 @@ public class Item {
 	
 	public String getFno(){
 		return this.Fno;
+	}
+	
+	public int getItype(){
+		return this.Itype;
+	}
+	
+	public void setItype(int newf){
+		this.Itype = newf;
 	}
 	
 	public void setIno(String str){
@@ -32,13 +48,14 @@ public class Item {
 	}
 	
 	public PreparedStatement insertItem(ConnectServer con){
-		String sql = "insert into Item(Ino,Iname,Fno) values (?,?,?);";
+		String sql = "insert into Item(Ino,Iname,Fno,Itype) values (?,?,?,?);";
 		
 		try {
 			PreparedStatement stmt = con.prepare(sql);
 			stmt.setString(1, this.getIno());
 			stmt.setString(2, this.getIname());
 			stmt.setString(3, this.getFno());
+			stmt.setInt(4, Itype);
 			
 			return stmt;
 		} catch (Exception e) {
@@ -87,34 +104,13 @@ public class Item {
 	public PreparedStatement queryItem(ConnectServer con, String req){
 		int index = 1;
 		
-		String sql = "Select" + req + "from Item ";
-		if(this.getIno()!=null){
-			if(index == 1){
-				sql += "where ";
-				index++;
-			}
-			else sql += "AND ";
-			sql += "Ino=? ";
-		}
-		if(this.getIname()!=null){
-			if(index == 1){
-				sql += "where ";
-				index++;
-			}
-			else sql += "AND ";
-			sql += "Iname=? ";
-		}
-		if(this.getFno()!=null){
-			if(index == 1){
-				sql += "where ";
-				index++;
-			}
-			else sql += "AND ";
-			sql += "Fno=? ";
-		}
+		String sql = "select" + req + "from Item where 1=1";
+		if(this.getIno()!=null)sql += " AND Ino=?";
+		if(this.getIname()!=null)sql += " AND Iname=?";
+		if(this.getFno()!=null)sql += " AND Fno=?";
+		if(this.getItype()!=-1)sql += " AND Itype=?";
 		sql += ";";
 		
-		index = 1;
 		PreparedStatement stmt;
 		
 		try{
@@ -122,6 +118,7 @@ public class Item {
 			if(this.getIno()!=null)stmt.setString(index++, this.getIno());
 			if(this.getIname()!=null)stmt.setString(index++, this.getIname());
 			if(this.getFno()!=null)stmt.setString(index++, this.getFno());
+			if(this.getItype()!=-1)stmt.setInt(index,this.getItype());
 			return stmt;
 		}
 		catch(Exception e){

@@ -9,6 +9,14 @@ public class Comment {
 	private String userid;
 	private String Ino;
 	private String Content;
+	
+	public Comment(){
+		this.CID = null;
+		this.userid = null;
+		this.Ino = null;
+		this.Content = null;
+	}
+	
 	public String getCID() {
 		return CID;
 	}

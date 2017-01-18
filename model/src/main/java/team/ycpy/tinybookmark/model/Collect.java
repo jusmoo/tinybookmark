@@ -7,6 +7,12 @@ import java.util.Map;
 public class Collect {
 	private String Fno;
 	private String Ino;
+	
+	public Collect(){
+		this.Fno = null;
+		this.Ino = null;
+	}
+	
 	public String getFno() {
 		return Fno;
 	}

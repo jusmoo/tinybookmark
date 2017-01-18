@@ -9,7 +9,7 @@ public class ConnectServer {
 	private boolean isLink;
 	private String username;
 	private String password;
-	private final String addr = "jdbc:mysql://localhost:3306/sys";
+	private final String addr = "jdbc:mysql://localhost:3306/tinybookmark";
 	private final String driver = "com.mysql.jdbc.Driver";
 	
 	//users can just modify the username and password

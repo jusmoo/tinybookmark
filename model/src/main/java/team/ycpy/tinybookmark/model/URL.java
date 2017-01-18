@@ -8,6 +8,13 @@ public class URL {
 	private String Ino;
 	private String Iname;
 	private String Uaddr;
+	
+	public URL(){
+		this.Ino = null;
+		this.Iname = null;
+		this.Uaddr = null;
+	}
+	
 	public String getIno() {
 		return Ino;
 	}

@@ -8,6 +8,13 @@ public class User {
 	private String password;
 	private String rootfoldid;
 	
+	public User(){
+		this.username = null;
+		this.nickname = null;
+		this.password = null;
+		this.rootfoldid = null;
+	}
+	
 	public String getusername(){
 		return this.username;
 	}
@@ -99,26 +106,11 @@ public class User {
 	public PreparedStatement queryUser(ConnectServer con, String req){
 		int index = 1;
 		
-		String sql = "Select" + req + "from User ";
-		if(this.getusername()!=null){
-			if(index == 1){
-				sql += "where ";
-				index++;
-			}
-			else sql += "AND ";
-			sql += "username=? ";
-		}
-		if(this.getnickname()!=null){
-			if(index == 1){
-				sql += "where ";
-				index++;
-			}
-			else sql += "AND ";
-			sql += "nickname=? ";
-		}
+		String sql = "select" + req + "from User where 1=1";
+		if(this.getusername()!=null)sql += " AND username=?";
+		if(this.getnickname()!=null)sql += " AND nickname=?";
 		sql += ";";
 		
-		index = 1;
 		PreparedStatement stmt;
 		
 		try{

@@ -8,6 +8,13 @@ public class Folder {
 	private int Ftype;
 	private String CreaterId;
 	
+	public Folder(){
+		this.Ino = null;
+		this.Iname = null;
+		this.Ftype = -1;
+		this.CreaterId = null;
+	}
+	
 	public String getIno(){
 		return this.Ino;
 	}
@@ -99,42 +106,15 @@ public class Folder {
 	public PreparedStatement queryFolder(ConnectServer con, String req){
 		int index = 1;
 		
-		String sql = "Select" + req + "from Folder where ";
-		if(this.getIno()!=null){
-			if(index == 1){
-				sql += "where ";
-				index++;
-			}
-			else sql += "AND ";
-			sql += "Ino=? ";
-		}
-		if(this.getIname()!=null){
-			if(index == 1){
-				sql += "where ";
-				index++;
-			}
-			else sql += "AND ";
-			sql += "Iname=? ";
-		}
-		if(this.getFtype()!=-1){
-			if(index == 1){
-				sql += "where ";
-				index++;
-			}
-			else sql += "AND ";
-			sql += "Ftype=? ";
-		}
-		if(this.getCreaterId()!=null){
-			if(index == 1){
-				sql += "where ";
-				index++;
-			}
-			else sql += "AND ";
-			sql += "CreaterId=? ";
-		}
+		String sql = "select" + req + "from Folder where 1=1";
+		
+		if(this.getIno()!=null)sql += " AND Ino=?";
+		if(this.getIname()!=null)sql += " AND Iname=?";
+		if(this.getFtype()!=-1)sql += " AND Ftype=?";
+		if(this.getCreaterId()!=null)sql += " AND CreaterId=?";
 		sql += ";";
 		
-		index = 1;
+		
 		PreparedStatement stmt;
 		
 		try{

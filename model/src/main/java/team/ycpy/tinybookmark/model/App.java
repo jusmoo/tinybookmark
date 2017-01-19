@@ -8,7 +8,8 @@ public class App
 {
     public static void main( String[] args )
     {
-        ConnectServer con = new ConnectServer("root","Aaron12345");
+        //ConnectServer con = new ConnectServer("root","Aaron12345");
+    	ConnectServer con = new ConnectServer("root","root");
         int flag = con.link();
         if(flag == 200)System.out.println("link successfully");
         else System.out.println("Failed");

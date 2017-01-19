@@ -1,4 +1,4 @@
-package team.ycpy.tinybookmark.model;
+package team.ycpy.model;
 
 /**
  * Hello world!

@@ -1,5 +1,4 @@
-package team.ycpy.tinybookmark.model;
-
+package team.ycpy.model;
 import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Map;

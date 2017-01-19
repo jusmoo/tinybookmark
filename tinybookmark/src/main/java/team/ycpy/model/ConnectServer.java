@@ -1,4 +1,4 @@
-package team.ycpy.tinybookmark.model;
+package team.ycpy.model;
 
 import java.sql.*;	
 
@@ -21,38 +21,25 @@ public class ConnectServer {
 		this.password = pass;
 	}
 	
-	ConnectServer(String username,String password){
+	public ConnectServer(String username,String password){
 		this.isLink = false;
 		this.setusername(username);
 		this.setpassword(password);
 	}
 	
 	//link the mysql, if succeed, return value 201, else return value 200
-	public int link(){
-		try{
-			Class.forName(driver);
-			this.conn = DriverManager.getConnection(this.addr, this.username, this.password);
-		}
-		catch(Exception e){
-			System.out.println("AAA");
-			e.printStackTrace();
-			return 201;
-		}
+	public int link() throws Exception{
+		Class.forName(driver);
+		this.conn = DriverManager.getConnection(this.addr, this.username, this.password);
 		this.isLink = true;
 		return 200;
 	}
 	
 	//use to close the link
-	public int close(){
-		try{
-			if(this.isLink){
-				this.conn.close();
-				this.isLink = false;
-			}
-		}
-		catch(Exception e){
-			System.out.println(e.getStackTrace());
-			return 201;
+	public int close()throws Exception{
+		if(this.isLink){
+			this.conn.close();
+			this.isLink = false;
 		}
 		return 200;
 	}

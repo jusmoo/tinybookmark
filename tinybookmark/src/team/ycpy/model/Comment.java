@@ -4,7 +4,9 @@ package team.ycpy.model;
 import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Map;
+import javax.xml.bind.annotation.*;
 
+@XmlRootElement
 public class Comment {
 	private String CID;
 	private String userid;

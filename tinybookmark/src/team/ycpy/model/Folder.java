@@ -84,9 +84,11 @@ public class Folder {
 		int index = 1;
 		
 		String sql = "update Folder set ";
-		if(this.getIname()!=null)sql += "Iname=?,";
-		if(this.getFtype()!=-1)sql += "Ftype=?,";
-		if(this.getCreaterId()!=null)sql += "CreaterId=? ";
+		if(this.getIname()!=null)sql += "Iname=?";
+		if(this.getFtype()!=-1){
+			if(this.getIname()!=null)sql += ", ";
+			sql += "Ftype=? ";
+		}
 		sql += "where Ino=?";
 		PreparedStatement stmt;
 		
@@ -94,7 +96,6 @@ public class Folder {
 			stmt = con.prepare(sql);
 			if(this.getIname()!=null)stmt.setString(index++, this.getIname());
 			if(this.getFtype()!=-1)stmt.setInt(index++, this.getFtype());
-			if(this.getCreaterId()!=null)stmt.setString(index+1, this.getCreaterId());
 			stmt.setString(index, this.getIno());
 			return stmt;
 		}
@@ -104,15 +105,15 @@ public class Folder {
 		}
 	}
 	
-	public PreparedStatement queryFolder(ConnectServer con, String req){
+	public PreparedStatement queryFolder(ConnectServer con, String req, String relation){
 		int index = 1;
 		
 		String sql = "select" + req + "from Folder where 1=1";
 		
-		if(this.getIno()!=null)sql += " AND Ino=?";
-		if(this.getIname()!=null)sql += " AND Iname=?";
-		if(this.getFtype()!=-1)sql += " AND Ftype=?";
-		if(this.getCreaterId()!=null)sql += " AND CreaterId=?";
+		if(this.getIno()!=null)sql += (" AND Ino" + relation);
+		if(this.getIname()!=null)sql += (" AND Iname" + relation);
+		if(this.getFtype()!=-1)sql += (" AND Ftype" + relation);
+		if(this.getCreaterId()!=null)sql += (" AND CreaterId" + relation);
 		sql += ";";
 		
 		

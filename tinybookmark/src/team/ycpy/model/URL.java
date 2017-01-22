@@ -73,12 +73,15 @@ public class URL {
 		}
 	}
 	public PreparedStatement insertURL(ConnectServer con){
-		String sql="INSERT INTO URL(Ino,Iname,Uaddr) "+
-				"VALUES("+
-				this.getIno()+","+this.getIname()+","+this.getUaddr()+
-				")";
+		String sql = "insert into URL(Ino,Iname,Uaddr) values (?,?,?);";
+		
 		try {
-			return con.prepare(sql);
+			PreparedStatement stmt = con.prepare(sql);
+			stmt.setString(1, this.getIno());
+			stmt.setString(2, this.getIname());
+			stmt.setString(3, this.getUaddr());
+			
+			return stmt;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

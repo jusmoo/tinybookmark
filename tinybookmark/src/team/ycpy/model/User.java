@@ -86,9 +86,11 @@ public class User {
 		int index = 1;
 		
 		String sql = "update User set ";
-		if(this.getnickname()!=null)sql += "nickname=?,";
-		if(this.getpassword()!=null)sql += "password=?,";
-		if(this.getrootfoldid()!=null)sql += "rootfoldid=? ";
+		if(this.getnickname()!=null)sql += "nickname=?";
+		if(this.getpassword()!=null){
+			if(this.getnickname()!=null)sql += ", ";
+			sql += "password=? ";
+		}
 		sql += "where username=?";
 		PreparedStatement stmt;
 		
@@ -106,12 +108,12 @@ public class User {
 		}
 	}
 	
-	public PreparedStatement queryUser(ConnectServer con, String req){
+	public PreparedStatement queryUser(ConnectServer con, String req, String relation){
 		int index = 1;
 		
 		String sql = "select" + req + "from User where 1=1";
-		if(this.getusername()!=null)sql += " AND username=?";
-		if(this.getnickname()!=null)sql += " AND nickname=?";
+		if(this.getusername()!=null)sql += (" AND username" + relation);
+		if(this.getnickname()!=null)sql += (" AND username" + relation);
 		sql += ";";
 		
 		PreparedStatement stmt;

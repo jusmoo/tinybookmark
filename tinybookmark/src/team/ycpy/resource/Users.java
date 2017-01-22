@@ -23,7 +23,7 @@ public class Users {
 		User judge = new User();
 		try{
 			con.link();
-			PreparedStatement stmt = in.queryUser(con, " * ");
+			PreparedStatement stmt = in.queryUser(con, " * "," = ");
 			ResultSet res = con.executeQuery(stmt);
 			if(res.next()){
 				judge.setusername(res.getString("username"));
@@ -56,7 +56,7 @@ public class Users {
 		//judge if the user is already here
 		try{
 			con.link();
-			PreparedStatement stmt = in.queryUser(con, " * ");
+			PreparedStatement stmt = in.queryUser(con, " * "," = ");
 			ResultSet res = con.executeQuery(stmt);
 			if(res.next())return null;
 		}
@@ -93,6 +93,25 @@ public class Users {
 			return null;
 		}
 		return in;
+	}
+	
+	@PUT
+	@Path("{username}")
+	@Produces("application/json")
+	public User updateprofile(User it,@PathParam("username") String name){
+		ConnectServer con = new ConnectServer("root","Aaron12345");
+		try{
+			con.link();
+			it.setusername(name);
+			PreparedStatement stmt = it.updateUser(con);
+			System.out.println(stmt.toString());
+			con.executeUpdate(stmt);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+		return it;
 	}
 
 }

@@ -32,19 +32,12 @@ public class ConnectServer {
 	}
 	
 	//link the mysql, if succeed, return value 201, else return value 200
-	public int link(){
-		try{
-			Driver drivers = new com.mysql.jdbc.Driver();
-			Properties info = new Properties();
-			info.put("user", this.username);
-			info.put("password", this.password);
-			this.conn = drivers.connect(addr,info);
-		}
-		catch(Exception e){
-			System.out.println("AAA");
-			e.printStackTrace();
-			return 201;
-		}
+	public int link() throws Exception{
+		Driver drivers = new com.mysql.jdbc.Driver();
+		Properties info = new Properties();
+		info.put("user", this.username);
+		info.put("password", this.password);
+		this.conn = drivers.connect(addr,info);
 		this.isLink = true;
 		return 200;
 	}
@@ -81,19 +74,8 @@ public class ConnectServer {
 		return res;
 	}
 	
-	public int executeInsert(java.sql.PreparedStatement sql){
-		if(!this.isLink)return 201;
-		
-		
-		try{
-			sql.execute();
-		}
-		catch(Exception e){
-			System.out.println(e.getStackTrace());
-			return 201;
-		}
-		
-		return 200;
+	public void executeInsert (java.sql.PreparedStatement sql) throws Exception{
+		sql.execute();
 	}
 	
 	//execute delete, if succeed, then return 200, return 201 otherwise
@@ -112,19 +94,8 @@ public class ConnectServer {
 	}
 	
 	//execute update, if succeed, then return 200, return 201 otherwise
-	public int executeUpdate(java.sql.PreparedStatement sql){
-		if(!this.isLink)return 201;
-		
-		
-		try{
-			sql.execute();
-		}
-		catch(Exception e){
-			System.out.println(e.getStackTrace());
-			return 201;
-		}
-		
-		return 200;
+	public void executeUpdate (java.sql.PreparedStatement sql) throws Exception{
+		sql.execute();
 	}
 	
 	public java.sql.PreparedStatement prepare(String sql)throws Exception{

@@ -84,8 +84,11 @@ public class Item {
 		int index = 1;
 		
 		String sql = "update Item set ";
-		if(this.getIname()!=null)sql += "Iname=?,";
-		if(this.getFno()!=null)sql += "Fno=? ";
+		if(this.getIname()!=null)sql += "Iname=?";
+		if(this.getFno()!=null){
+			if(this.getIname()!=null)sql += ", ";
+			sql += "Fno=? ";
+		}
 		sql += "where Ino=?";
 		PreparedStatement stmt;
 		
@@ -102,14 +105,14 @@ public class Item {
 		}
 	}
 	
-	public PreparedStatement queryItem(ConnectServer con, String req){
+	public PreparedStatement queryItem(ConnectServer con, String req, String relation){
 		int index = 1;
 		
 		String sql = "select" + req + "from Item where 1=1";
-		if(this.getIno()!=null)sql += " AND Ino=?";
-		if(this.getIname()!=null)sql += " AND Iname=?";
-		if(this.getFno()!=null)sql += " AND Fno=?";
-		if(this.getItype()!=-1)sql += " AND Itype=?";
+		if(this.getIno()!=null)sql += (" AND Ino" + relation);
+		if(this.getIname()!=null)sql += (" AND Iname" + relation);
+		if(this.getFno()!=null)sql += (" AND Fno" + relation);
+		if(this.getItype()!=-1)sql += (" AND Itype" + relation);
 		sql += ";";
 		
 		PreparedStatement stmt;

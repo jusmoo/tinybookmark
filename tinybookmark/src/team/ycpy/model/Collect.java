@@ -8,12 +8,30 @@ import java.util.Map;
 public class Collect {
 	private String Fno;
 	private String Ino;
+	private String Itype;
+	private String Iname;
 	
 	public Collect(){
 		this.Fno = null;
 		this.Ino = null;
+		this.Itype = null;
+		this.Iname = null;
 	}
-	
+		public String getItype() {
+		return Itype;
+	}
+
+	public void setItype(String itype) {
+		Itype = itype;
+	}
+
+	public String getIname() {
+		return Iname;
+	}
+
+	public void setIname(String iname) {
+		Iname = iname;
+	}
 	public String getFno() {
 		return Fno;
 	}
@@ -30,7 +48,7 @@ public class Collect {
 		StringBuilder sb=new StringBuilder();
 		sb.append("SELECT * FROM Collect WHERE 1=1");
 		for (Map<String, Object> map : l) {
-			sb.append(" and "+map.get("name")+" "+map.get("relation")+" "+map.get("value"));
+			sb.append(" and "+map.get("name")+" "+map.get("relation")+" '"+map.get("value")+"'");
 		}
 		try {
 			return con.prepare(sb.toString());
@@ -41,7 +59,7 @@ public class Collect {
 		}
 	}
 	public PreparedStatement deleteCollect(ConnectServer con){
-		String sql="DELETE FROM Collect WHERE Fno="+this.getFno()+" and Ino="+this.getIno();
+		String sql="DELETE FROM Collect WHERE Fno='"+this.getFno()+"' and Ino='"+this.getIno()+"'";
 		try {
 			return con.prepare(sql);
 		} catch (Exception e) {
@@ -64,10 +82,10 @@ public class Collect {
 		}
 	}*/
 	public PreparedStatement insertCollect(ConnectServer con){
-		String sql="INSERT INTO Collect(Fno,Ino) "+
+		String sql="INSERT INTO Collect(Fno,Ino,Itype,Iname) "+
 				"VALUES("+
-				this.getFno()+","+this.getIno()+
-				")";
+				"'"+this.getFno()+"','"+this.getIno()+"','"+this.getItype()+"','"+this.getIname()+
+				"')";
 		try {
 			return con.prepare(sql);
 		} catch (Exception e) {

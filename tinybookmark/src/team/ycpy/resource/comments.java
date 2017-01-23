@@ -9,6 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Path("/comments")
 public class comments {
@@ -53,15 +54,34 @@ public class comments {
 	@Produces("application/json")
 	public List<Comment> getComment(@Context HttpServletRequest request){
 		Comment in = new Comment();
-		List<Comment> res = new ArrayList<Comment> ();
+		List<Comment> cmts = new ArrayList<Comment> ();
+		ResultSet res;
 		ConnectServer con = new ConnectServer("root","Aaron12345");
 		in.setIno(request.getParameter("Ino"));
-		
-		try{
-			con.link();
-			PreparedStatement stmt = in.queryComment(con, " * ");
-			
-		}
+			try {
+				con.link();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return null;
+			}
+			PreparedStatement stmt = in.queryComment(con);
+			res=con.executeQuery(stmt);
+			try {
+				while(res.next()){
+					Comment cmt = new Comment();
+					cmt.setCID(res.getString("CID"));
+					cmt.setContent("Content");
+					cmt.setIno("Ino");
+					cmt.setUserid("userid");
+					cmts.add(cmt);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return null;
+			}
+			return cmts;
 	}
 
 }

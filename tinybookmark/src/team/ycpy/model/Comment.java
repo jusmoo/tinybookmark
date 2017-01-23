@@ -48,7 +48,7 @@ public class Comment {
 		StringBuilder sb=new StringBuilder();
 		sb.append("SELECT * FROM Comment WHERE 1=1");
 		for (Map<String, Object> map : l) {
-			sb.append(" and "+map.get("name")+" "+map.get("relation")+" "+map.get("value"));
+			sb.append(" and "+map.get("name")+" "+map.get("relation")+" '"+map.get("value")+"'");
 		}
 		try {
 			return con.prepare(sb.toString());
@@ -58,8 +58,18 @@ public class Comment {
 			return null;
 		}
 	}
+	public PreparedStatement queryComment(ConnectServer con){
+		String sql = "SELECT * FROM Comment WHERE Ino='"+this.getIno()+"';";
+		try {
+			return con.prepare(sql);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
 	public PreparedStatement deleteComment(ConnectServer con){
-		String sql="DELETE FROM Comment WHERE CID="+this.getCID();
+		String sql="DELETE FROM Comment WHERE CID='"+this.getCID()+"'";
 		try {
 			return con.prepare(sql);
 		} catch (Exception e) {
@@ -71,8 +81,8 @@ public class Comment {
 	public PreparedStatement updateComment(ConnectServer con){
 		String sql="UPDATE Comment"+
 				" SET"+
-				" userid="+this.getUserid()+",Ino="+this.getIno()+",Content="+this.getContent()+
-				" WHERE CID="+this.getCID();
+				" userid='"+this.getUserid()+"',Ino='"+this.getIno()+"',Content='"+this.getContent()+"'"+
+				" WHERE CID=+"+this.getCID()+"'";
 		try {
 			return con.prepare(sql);
 		} catch (Exception e) {
@@ -84,8 +94,8 @@ public class Comment {
 	public PreparedStatement insertComment(ConnectServer con){
 		String sql="INSERT INTO Comment(CID,userid,Ino,Content)"+
 				" VALUES("+
-				this.getCID()+","+this.getUserid()+","+this.getIno()+","+this.getContent()+
-				")";
+				"'"+this.getCID()+"','"+this.getUserid()+"','"+this.getIno()+"','"+this.getContent()+
+				"')";
 		try {
 			return con.prepare(sql);
 		} catch (Exception e) {

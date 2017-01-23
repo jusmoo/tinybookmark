@@ -38,7 +38,7 @@ public class URL {
 		StringBuilder sb=new StringBuilder();
 		sb.append("SELECT * FROM URL WHERE 1=1");
 		for (Map<String, Object> map : l) {
-			sb.append(" and "+map.get("name")+" "+map.get("relation")+" "+map.get("value"));
+			sb.append(" and "+map.get("name")+" "+map.get("relation")+" '"+map.get("value")+"'");
 		}
 		try {
 			return con.prepare(sb.toString());
@@ -50,7 +50,7 @@ public class URL {
 		
 	}
 	public PreparedStatement deleteURL(ConnectServer con){
-		String sql="DELETE FROM URL WHERE Ino="+this.getIno();
+		String sql="DELETE FROM URL WHERE Ino='"+this.getIno()+"'";
 		try {
 			return con.prepare(sql);
 		} catch (Exception e) {
@@ -62,8 +62,8 @@ public class URL {
 	public PreparedStatement updateURL(ConnectServer con){
 		String sql="UPDATE URL"+
 				" SET"+
-				" Iname="+this.getIname()+",Uaddr="+this.getUaddr()+
-				" WHERE Ino="+this.getIno();
+				" Iname='"+this.getIname()+"',Uaddr='"+this.getUaddr()+
+				"' WHERE Ino='"+this.getIno()+"'";
 		try {
 			return con.prepare(sql);
 		} catch (Exception e) {
@@ -73,7 +73,7 @@ public class URL {
 		}
 	}
 	public PreparedStatement insertURL(ConnectServer con){
-		String sql = "insert into URL(Ino,Iname,Uaddr) values (?,?,?);";
+		String sql = "insert into URL(Ino,Iname,Uaddr) values ('?','?','?');";
 		
 		try {
 			PreparedStatement stmt = con.prepare(sql);
